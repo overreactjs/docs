@@ -38,10 +38,10 @@ const config: Config = {
 
   themeConfig: {
     navbar: {
-      title: '',
+      title: 'overreact',
       logo: {
         alt: 'My Site Logo',
-        src: 'img/overreact.png',
+        src: 'img/icon.png',
       },
       items: [
         {
