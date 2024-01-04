@@ -1,6 +1,6 @@
 # useProperty
 
-Coalesce a `Prop` (either a `Property` or a literal value) into a `Property`. See the guide on [passing props](../guides/passing-props) for a detailed explanation on how props are used in _Overreact_.
+Coalesce a `Prop` (either a `Property` or a literal value) into a `Property`. See the guide on [passing props](../guides/properties) for a detailed explanation on how props are used in _Overreact_.
 
 ## Example
 
