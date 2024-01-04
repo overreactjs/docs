@@ -1,6 +1,6 @@
 # useUpdate
 
-> Register a callback function that will be invoked once per frame, whilst the game is not paused. It is responsible for updating some of the game state.
+Register a callback function that will be invoked once per frame, whilst the game is not paused. It is responsible for updating some of the game state.
 
 ## Example
 

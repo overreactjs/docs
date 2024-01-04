@@ -1,6 +1,6 @@
 # useRender
 
-> Register a callback function that will be invoked every frame, regardless of whether or not the game is paused. It is responsible for updating the appearance of elements in the DOM to reflect the current game state.
+Register a callback function that will be invoked every frame, regardless of whether or not the game is paused. It is responsible for updating the appearance of elements in the DOM to reflect the current game state.
 
 ## Examples
 
