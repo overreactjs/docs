@@ -26,7 +26,7 @@ Let's create a component that renders a multicolored square on screen.
 
 Our component outputs an empty div, with no styles, and no classes. It has a `hue` ref, and each frame the hue value is increased by a small amount. If we were to run this we'd see nothing, because we aren't 'rendering' anything yet.
 
-```jsx
+```tsx
 const MyComponent = () => {
   const ref = useRef<HTMLDivElement>(null);
   const hue = useRef(0);
@@ -43,7 +43,7 @@ const MyComponent = () => {
 
 Let's add a render function, which updates the background color of the element, based on the current `hue` value.
 
-```jsx
+```tsx
 const MyComponent = () => {
   const ref = useRef<HTMLDivElement>(null);
   const hue = useRef(0);
@@ -68,7 +68,7 @@ That's better, now we see the square, cycling gradually through all of the color
 
 The _Overreact_ game loop uses [`requestAnimationFrame`](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) to request that the browser runs one iteration of the loop each time it is ready to draw to the screen. Here's a simplified version of what it looks like:
 
-```ts
+```tsx
 let previous = 0;
 
 function loop(next) {

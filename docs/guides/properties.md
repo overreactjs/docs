@@ -12,7 +12,7 @@ When building a React app, we mostly don't need to think about the component lif
 
 Here's a simple component that contains a single piece of state, a count of how many times a button has been pressed. When the button is clicked, the count is increased by one, which triggers a rerender of the component, thus ensuring the new value is displayed. We can write this code without ever knowing the details of how React does this under the hood.
 
-```jsx title="/src/components/MyComponent.js"
+```tsx title="/src/components/MyComponent.js"
 const MyComponent = () => {
   const [count, setCount] = useState(0);
   const onClick = () => setCount((count) => count + 1);
@@ -27,7 +27,7 @@ const MyComponent = () => {
 
 However, when we're making a game, we don't want React to rerender our components for us, because we need tighter control over when that happens. With _Overreact_, you'll use props that are more like refs. The example below is equivalent to the one above:
 
-```jsx title="/src/components/MyComponent.js"
+```tsx title="/src/components/MyComponent.js"
 const MyComponent = () => {
   const element = useElement();
   const count = useProperty(0);
@@ -49,14 +49,14 @@ Let's expand on the example above. Let's imagine we need access to the number of
 
 We could do the equivalent with properties, like so, and it would work:
 
-```jsx title="/src/components/Parent.js"
+```tsx title="/src/components/Parent.js"
 export const Parent = () => {
   const count = useProperty(0);
   return <MyComponent count={count} />;
 };
 ```
 
-```jsx title="/src/components/MyComponent.js"
+```tsx title="/src/components/MyComponent.js"
 type Props = {
   count: Property<number>;
 }
@@ -73,7 +73,7 @@ const MyComponent: React.FC<Props> = ({ count }) => {
 However, we can do better. The `useProperty` hook not only initializes a new property, it can take an existing property as a parameter, and simply passes it through. This – along with the `Prop<T>` type – allows us to create components which can either initialize a property or reuse an existing property that something higher up the component tree also has access to.
 
 
-```jsx title="/src/components/MyComponent.js"
+```tsx title="/src/components/MyComponent.js"
 type Props = {
   // highlight-start
   count: Prop<number>;
@@ -96,11 +96,11 @@ This can be particularly powerful, allowing us to create components that can eit
 
 All of the following are valid:
 
-```jsx
+```tsx
 // The component owns the property.
 return <MyComponent />;
 
-// The component owns the property, initialized as '5'.
+// The component owns the property, initialized by the parent as '5'.
 return <MyComponent count={5} />;
 
 // The parent owns the property.
@@ -116,7 +116,7 @@ They also have an `invalidated` property, which is automatically set to `true` w
 
 The first example we showed above has a flaw, we aren't checking the `invalidated` flag (or clearing it) in the render function. As a result, we're setting the text content of the button ___every single frame___, even when it hasn't changed. Here's a better implementation:
 
-```jsx
+```tsx
 useRender(() => {
   // Check that the count value actually changed.
   if (count.invalidated) {
