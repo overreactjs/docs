@@ -2,7 +2,11 @@
 
 Register a callback function that will be invoked once per frame, whilst the game is not paused. It is responsible for updating some of the game state.
 
-## Example
+```tsx
+useUpdate(callback);
+```
+
+## Examples
 
 ```tsx
 // Update the player's position, based on their velocity.

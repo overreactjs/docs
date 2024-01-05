@@ -2,6 +2,10 @@
 
 Register a callback function that will be invoked every frame, regardless of whether or not the game is paused. It is responsible for updating the appearance of elements in the DOM to reflect the current game state.
 
+```tsx
+useRender(callback);
+```
+
 ## Examples
 
 ```tsx
@@ -13,8 +17,8 @@ useRender(() => {
 
 ```tsx
 // Display the player's score.
-const game = useMyGameState();
+const score = useProperty(100);
 useRender(() => {
-  element.setText(game.score.current.toString());
+  element.setText(score.current.toString());
 });
 ```

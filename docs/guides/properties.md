@@ -131,3 +131,8 @@ useRender(() => {
 ### Clear invalidation flags
 
 When you clear an `invalidated` flag on a property, it does not change immediately. Instead, it is scheduled to change after the current render phase, once all registered render functions have completed. This is necessary since a property may be accessed in multiple render functions, and we wouldn't want the first of those to clear the invalidation flag that a subsequent render function will be checking.
+
+## Dynamic properties
+
+Oftentimes, the value of one property is directly related to the value of another property. The `useDynamicProperty` hook make this easy to setup, like so:
+
