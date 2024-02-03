@@ -1,3 +1,7 @@
+---
+sidebar_position: 2
+---
+
 # Properties
 
 In _Overreact_ you'll work with props a little differently to how you would typically use props in a React app.
@@ -12,7 +16,7 @@ When building a React app, we mostly don't need to think about the component lif
 
 Here's a simple component that contains a single piece of state, a count of how many times a button has been pressed. When the button is clicked, the count is increased by one, which triggers a rerender of the component, thus ensuring the new value is displayed. We can write this code without ever knowing the details of how React does this under the hood.
 
-```tsx title="/src/components/MyComponent.js"
+```tsx
 const MyComponent = () => {
   const [count, setCount] = useState(0);
   const onClick = () => setCount((count) => count + 1);
@@ -27,7 +31,7 @@ const MyComponent = () => {
 
 However, when we're making a game, we don't want React to rerender our components for us, because we need tighter control over when that happens. With _Overreact_, you'll use props that are more like refs. The example below is equivalent to the one above:
 
-```tsx title="/src/components/MyComponent.js"
+```tsx
 const MyComponent = () => {
   const element = useElement();
   const count = useProperty(0);
@@ -49,14 +53,12 @@ Let's expand on the example above. Let's imagine we need access to the number of
 
 We could do the equivalent with properties, like so, and it would work:
 
-```tsx title="/src/components/Parent.js"
-export const Parent = () => {
+```tsx
+const Parent = () => {
   const count = useProperty(0);
   return <MyComponent count={count} />;
 };
-```
 
-```tsx title="/src/components/MyComponent.js"
 type Props = {
   count: Property<number>;
 }
@@ -73,7 +75,7 @@ const MyComponent: React.FC<Props> = ({ count }) => {
 However, we can do better. The `useProperty` hook not only initializes a new property, it can take an existing property as a parameter, and simply passes it through. This – along with the `Prop<T>` type – allows us to create components which can either initialize a property or reuse an existing property that something higher up the component tree also has access to.
 
 
-```tsx title="/src/components/MyComponent.js"
+```tsx
 type Props = {
   // highlight-start
   count: Prop<number>;
@@ -136,3 +138,34 @@ When you clear an `invalidated` flag on a property, it does not change immediate
 
 Oftentimes, the value of one property is directly related to the value of another property. The `useDynamicProperty` hook make this easy to setup, like so:
 
+```tsx
+// Map from an angle (in radians) to a point on a circle with a radius of 10.
+const angle = useProperty(45);
+const pos = useDynamicProperty(angle, (angle): Position => {
+  return [
+    Math.sin(angle.current) * 10,
+    Math.cos(angle.current) * 10,
+  ];
+});
+```
+
+Dynamic properties behave just like regular properties, implementing the same interface. One difference is in how they handle invalidation. A dynamic property inherits the invalidation flag from the property from which it is derived.
+
+Dynamic properties can be derived from other dynamic properties.
+
+### Special case: Offset positions
+
+A common use case for dynamic properties is to generate positions that are offset from another position. For example, where the collision box of a player does not have the same dimensions as the bitmap sprites for the player.
+
+Since this is a common pattern, we've provided you with the `useOffsetPosition` hook:
+
+```tsx
+const pos1 = useProperty([100, 100]);
+
+// Fixed offset of 20 pixels, in both the x and y axes.
+const pos2 = useOffsetPosition(pos1, [20, 20]);
+
+// Dynamic offset, using a property.
+const offset = useProperty([10, 10]);
+const pos3 = useOffsetPosition(pos1, offset);
+```
