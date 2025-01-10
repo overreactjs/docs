@@ -32,3 +32,9 @@
 .hidden {
   display: none !important;
 }
+
+.isolated nav,
+.isolated footer,
+.isolated .col--2 {
+  display: none;
+}
